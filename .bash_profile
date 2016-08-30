@@ -15,12 +15,11 @@ export PATH=/opt/local/bin:/opt/local/sbin:${PATH}
 # Aliases
 
 ## Shortcuts
-alias ll='ls -al'
+alias ll='ls -la'
 alias editgit='atom ~/.gitconfig'
 alias editbash='atom ~/.bash_profile'
 alias resource='source ~/.bash_profile && echo "Done!"'
 alias vi=vim
-alias josh=sudo
 
 ## Git commands
 alias log='git log'
@@ -39,10 +38,6 @@ alias branch_new="git for-each-ref --sort=-committerdate refs/heads/ --format='%
 ## Git branch switching
 alias master='git co master'
 alias ghp='git co gh-pages'
-
-## SVN
-alias up='svn up'
-alias sst='svn st'
 
 ## Switch repos
 DIR=~/work
@@ -68,8 +63,5 @@ alias gtest='testrb test/integration/bundle_test.rb'
 ## Mobile iOS testing
 alias ios='open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app'
 
-# Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-# rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+## Drupal Code Sniffer
+alias drupalcs='phpcs --standard=Drupal --extensions=php,js,css,module,inc,install,test,profile,theme $1'

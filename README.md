@@ -16,6 +16,7 @@
 
 - Download and install latest version of Xcode from the Mac App Store.
 - Download and install Xcode Command Line Tools from <https://developer.apple.com/downloads/>.
+- Download Homebrew.
 
 ### 2. Prep Terminal.app
 
@@ -41,12 +42,16 @@
 
 *Installing and managing Ruby with rbenv allows us to specify versions of Ruby on a per-project basis. It also means we can avoid running sudo commands for installing gems and more as it's not affecting OS X's system Ruby.*
 
-### 6. Additional dependencies
+### 6. Set up local PHP stuff
 
-- Install node via Homebrew: `brew install node`.
+- Follow [this guide(https://echo.co/blog/os-x-1010-yosemite-local-development-environment-apache-php-and-mysql-homebrew).
+
+### 7. Additional dependencies
+
+- Install node via [nvm](https://github.com/creationix/nvm).
 - Install Sass, Jekyll, and Rouge: `gem install sass jekyll rouge`.
 
-### 7. Setup Atom
+### 8. Setup Atom
 
 - Enable `atom` Terminal commands: from Atom.app, open the Atom menu and select *Install Shell Commands*
 - Install favorite packages
