@@ -44,7 +44,7 @@
 
 ### 6. Set up local PHP stuff
 
-- Follow [this guide(https://echo.co/blog/os-x-1010-yosemite-local-development-environment-apache-php-and-mysql-homebrew).
+- Follow [this guide](https://echo.co/blog/os-x-1010-yosemite-local-development-environment-apache-php-and-mysql-homebrew).
 
 ### 7. Additional dependencies
 
