@@ -4,6 +4,8 @@
 # Be prepared to turn your laptop (or desktop, no haters here)
 # into an awesome development machine.
 
+# @TODO Maybe start with copying files from this repo.
+
 fancy_echo() {
   local fmt="$1"; shift
 
@@ -11,19 +13,19 @@ fancy_echo() {
   printf "\n$fmt\n" "$@"
 }
 
-append_to_zshrc() {
-  local text="$1" zshrc
+append_to_bashprofile() {
+  local text="$1" bashprofile
   local skip_new_line="${2:-0}"
 
   if [ -w "$HOME/.bash_profile" ]; then
-    zshrc="$HOME/.bash_profile"
+    bashprofile="$HOME/.bash_profile"
   fi
 
-  if ! grep -Fqs "$text" "$zshrc"; then
+  if ! grep -Fqs "$text" "$bashprofile"; then
     if [ "$skip_new_line" -eq 1 ]; then
-      printf "%s\n" "$text" >> "$zshrc"
+      printf "%s\n" "$text" >> "$bashprofile"
     else
-      printf "\n%s\n" "$text" >> "$zshrc"
+      printf "\n%s\n" "$text" >> "$bashprofile"
     fi
   fi
 }
@@ -42,7 +44,7 @@ if [ ! -f "$HOME/.bash_profile" ]; then
 fi
 
 # shellcheck disable=SC2016
-append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
+append_to_bashprofile 'export PATH="$HOME/.bin:$PATH"'
 
 HOMEBREW_PREFIX="/usr/local"
 
@@ -70,10 +72,10 @@ if ! command -v brew >/dev/null; then
     curl -fsS \
       'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
 
-    append_to_zshrc '# recommended by brew doctor'
+    append_to_bashprofile '# recommended by brew doctor'
 
     # shellcheck disable=SC2016
-    append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+    append_to_bashprofile 'export PATH="/usr/local/bin:$PATH"' 1
 
     export PATH="/usr/local/bin:$PATH"
 fi
@@ -105,7 +107,7 @@ find_latest_ruby() {
 
 ruby_version="$(find_latest_ruby)"
 # shellcheck disable=SC2016
-append_to_zshrc 'eval "$(rbenv init - --no-rehash)"' 1
+append_to_bashprofile 'eval "$(rbenv init - --no-rehash)"' 1
 eval "$(rbenv init -)"
 
 if ! rbenv versions | grep -Fq "$ruby_version"; then
@@ -119,11 +121,49 @@ gem_install_or_update 'bundler'
 number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
 
+if ! command -v nvm >/dev/null; then
+  fancy_echo "Configuring NVM (Node.js)"
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.6/install.sh | bash
 
-fancy_echo "Configuring NVM (Node.js)"
+  source ~/.bash_profile
+  nvm install 6
+fi
 
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.6/install.sh | bash
+# Seems like no harm in running this even if they are installed.
+fancy_echo "Add common node packages"
+npm install -g yeoman eslint gulp
 
+
+# Install composer
+if ! command -v composer >/dev/null; then
+  fancy_echo "Configuring Composer"
+  curl -sS https://getcomposer.org/installer | php
+  mv composer.phar /usr/local/bin/composer
+
+  export PATH="$HOME/.composer/vendor/bin:$PATH"
+  append_to_bashprofile 'export PATH="$HOME/.composer/vendor/bin:$PATH"' 1
+fi
+
+if ! command -v phpcs >/dev/null; then
+  fancy_echo "Configure PHPCS with Drupal style"
+  composer global require drupal/coder
+  phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
+fi
+
+if ! command -v drush >/dev/null; then
+  fancy_echo "Configuring Drush"
+  composer global require drush/drush:dev-master
+fi
+
+if ! command -v drupal >/dev/null; then
+  fancy_echo "Configuring Drupal console"
+  curl https://drupalconsole.com/installer -L -o drupal.phar
+  mv drupal.phar /usr/local/bin/drupal
+  chmod +x /usr/local/bin/drupal
+  drupal init --override
+fi
+
+# @TODO Setup the local Drupal PHP environment.
 
 
 
