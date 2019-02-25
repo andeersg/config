@@ -16,8 +16,8 @@ export PATH=/opt/local/bin:/opt/local/sbin:${PATH}
 
 ## Shortcuts
 alias ll='ls -la'
-alias editgit='atom ~/.gitconfig'
-alias editbash='atom ~/.bash_profile'
+alias editgit='code ~/.gitconfig'
+alias editbash='code ~/.bash_profile'
 alias resource='source ~/.bash_profile && echo "Done!"'
 alias vi=vim
 
@@ -53,12 +53,6 @@ alias giants='cd ~/github/giants'
 alias hire='cd ~/github/hire'
 alias summit='cd ~/github/summit'
 alias primer='cd ~/github/primer'
-
-## Server guick starts
-alias ss='script/server'
-alias js='jekyll serve --watch'
-alias ps='python -m SimpleHTTPServer 4000'
-alias gtest='testrb test/integration/bundle_test.rb'
 
 ## Mobile iOS testing
 alias ios='open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app'
